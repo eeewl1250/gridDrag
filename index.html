@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>grid-drag-demo</title>
+    <meta charset="UTF-5" />
+    <style>
+        #container {
+            position: absolute;
+            width: 416px;
+            height: 27em;
+            background: -webkit-linear-gradient(top, transparent 5.15em, blue 5.2em), -webkit-linear-gradient(left, transparent 5.15em, blue 5.2em);
+            -webkit-background-size: 5.2em 5.2em;
+        }
+        .grid {
+            position: absolute;/*不要用relative，太复杂了*/
+            width: 5em;
+            height: 5em;
+            margin: 0.1em;
+            float: left;
+            background-color: indianred;
+            color: #fff;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="grid">0</div>
+        <div class="grid">1</div>
+        <div class="grid">2</div>
+        <div class="grid">3</div>
+        <div class="grid">4</div>
+        <div class="grid">5</div>
+    </div>
+    <script src="gridDrag.js"></script>
+</body>
+</html>
