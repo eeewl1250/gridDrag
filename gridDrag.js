@@ -54,6 +54,9 @@ function dragTo(obj) {
             var ev = e || window.event,
                 baseObj = this.parentNode;
 
+            //移动式，obj样式：半透明
+            this.style.opacity = "0.5";
+
             //鼠标移动时，obj随之移动
                 //当前obj相对于容器的地址
             var nowLeft = ev.clientX - relX - baseObj.offsetLeft,
@@ -69,14 +72,26 @@ function dragTo(obj) {
             var cenLeft = nowLeft + gridWidth/2,
                 cenTop = nowTop + gridWidth/2;
             this.centerGrid = gridAxis(cenTop, cenLeft);
-            console.log("centerGrid = " + this.centerGrid);
+            //console.log("centerGrid = " + this.centerGrid);
+
+            //中心移动到格子，格子变色，提示摆放
+            var prmAxis = windowAxis(this.centerGrid[0],this.centerGrid[1]);
+            var prmGrid = document.getElementById("prompt-grid");
+            prmGrid.style.display = "block";
+            prmGrid.style.left = prmAxis[1] + "px";
+            prmGrid.style.top = prmAxis[0] + "px";
 
             this.onmouseleave = function(e) {
+
+                //隐藏提示框
+                document.getElementById("prompt-grid").style.display = "none";
+
                 //回到原本的格子
                 this.style.left = oriLeft + "px";
                 this.style.top = oriTop + "px";
 
                 this.style.zIndex = 1;
+                this.style.opacity = "1";
                 this.onmousemove = null;
                 this.onmmouseup = null;
                 this.onmouseleave = null;
@@ -84,6 +99,9 @@ function dragTo(obj) {
         };
 
         this.onmouseup = function(e) {
+
+            //隐藏提示框
+            document.getElementById("prompt-grid").style.display = "none";
 
             //转化中心点的格子位置，即得到目前obj应处的格子、相对于父元素的位置
             var winAxis = windowAxis(this.centerGrid[0],this.centerGrid[1]);
@@ -110,6 +128,7 @@ function dragTo(obj) {
             }
 
             this.style.zIndex = 1;
+            this.style.opacity = "1";
             this.onmousemove = null;
             this.onmouseleave = null;
             this.onmmouseup = null;
@@ -135,7 +154,8 @@ var gridPostList = [];
 
 //事件绑定
 var grids = document.getElementsByClassName("grid");
-for(var i = 0, len = grids.length; i < len; i ++) {
+//最后一个格子是提示框，非内容，不要为其绑定事件
+for(var i = 0, len = grids.length - 1; i < len; i ++) {
     var thisGrid = grids[i];
     dragTo(thisGrid);
     //初始化
